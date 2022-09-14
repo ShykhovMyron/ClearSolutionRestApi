@@ -1,1 +1,15 @@
+spring:
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/user_db'
+    password: 'root'
+    username: 'root'
 
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    database: postgresql
+
+logging:
+  level:
+    root: INFO
