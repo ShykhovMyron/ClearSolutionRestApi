@@ -4,6 +4,10 @@ spring:
     password: 'root'
     username: 'root'
 
+  profiles:
+    include:
+      - properties
+
   jpa:
     hibernate:
       ddl-auto: validate
