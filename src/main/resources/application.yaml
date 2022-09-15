@@ -18,6 +18,11 @@ spring:
     init:
       mode: always
 
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+
 logging:
   level:
     root: INFO
