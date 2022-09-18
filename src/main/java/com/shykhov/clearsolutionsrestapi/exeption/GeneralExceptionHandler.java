@@ -36,6 +36,7 @@ public class GeneralExceptionHandler {
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class, BindException.class})
     public ResponseEntity<Map<String, Object>> defaultErrorHandler(Exception ex, HttpServletRequest request) {
+        ex.printStackTrace();
         request.setAttribute("javax.servlet.error.request_uri", request.getPathInfo());
         request.setAttribute("javax.servlet.error.status_code", 400);
         return errorController.error(request);
