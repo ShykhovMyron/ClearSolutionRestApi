@@ -2,8 +2,9 @@ package com.shykhov.clearsolutionsrestapi.controller;
 
 import com.shykhov.clearsolutionsrestapi.dao.entity.UserEntity;
 import com.shykhov.clearsolutionsrestapi.exeption.custom.InvalidDateRangeException;
-import com.shykhov.clearsolutionsrestapi.exeption.custom.UserDoesNotExistException;
+import com.shykhov.clearsolutionsrestapi.exeption.custom.UserNotFoundException;
 import com.shykhov.clearsolutionsrestapi.model.request.UserDetailsRequestModel;
+import com.shykhov.clearsolutionsrestapi.model.request.UserPatchRequestModel;
 import com.shykhov.clearsolutionsrestapi.model.response.UserResponse;
 import com.shykhov.clearsolutionsrestapi.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,6 +25,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.shykhov.clearsolutionsrestapi.utils.UserUtils.getResponse;
+import static com.shykhov.clearsolutionsrestapi.utils.UserUtils.patchUser;
 import static com.shykhov.clearsolutionsrestapi.utils.ValidationUtils.isDateIntervalValid;
 
 @RestController
@@ -43,14 +46,27 @@ public class UserController {
     public ResponseEntity<UserResponse> replaceUser(
             @PathVariable long id,
             @Valid @RequestBody UserDetailsRequestModel userDetails
-    ) throws UserDoesNotExistException {
+    ) throws UserNotFoundException {
         UserEntity saved = userService.replaceUser(id, userDetails);
 
         return new ResponseEntity<>(getResponse(saved), HttpStatus.OK);
     }
 
+    @PatchMapping(path = "users/{id}")
+    public ResponseEntity<UserResponse> editUser(
+            @PathVariable long id,
+            @Valid @RequestBody UserPatchRequestModel patch
+    ) throws UserNotFoundException {
+
+        UserEntity targetUser = userService.findUser(id);
+        UserEntity userPatched = patchUser(targetUser, patch);
+        userService.updateUser(userPatched);
+
+        return new ResponseEntity<>(getResponse(userPatched), HttpStatus.OK);
+    }
+
     @DeleteMapping("users/{id}")
-    public ResponseEntity<UserResponse> deleteUser(@PathVariable long id) throws UserDoesNotExistException {
+    public ResponseEntity<UserResponse> deleteUser(@PathVariable long id) throws UserNotFoundException {
         userService.deleteUser(id);
 
         return ResponseEntity.noContent().build();

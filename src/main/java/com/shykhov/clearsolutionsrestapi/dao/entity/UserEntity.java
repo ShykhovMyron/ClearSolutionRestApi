@@ -43,6 +43,7 @@ public class UserEntity {
     @Column(nullable = false)
     private LocalDate birthDate;
 
+    @Column
     private String phoneNumber;
 
     @Column

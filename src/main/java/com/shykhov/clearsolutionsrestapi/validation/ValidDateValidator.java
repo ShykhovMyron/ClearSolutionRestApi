@@ -16,7 +16,7 @@ public class ValidDateValidator implements ConstraintValidator<ValidAge, LocalDa
         if (dateBirth != null) {
             return LocalDate.now().minus(age, ChronoUnit.YEARS).isAfter(dateBirth) ||
                     LocalDate.now().minus(age, ChronoUnit.YEARS).isEqual(dateBirth);
-        } else return false;
+        } else return true;
     }
 
     @Override
