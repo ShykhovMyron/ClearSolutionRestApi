@@ -4,9 +4,15 @@ import com.shykhov.clearsolutionsrestapi.dao.entity.UserEntity;
 import com.shykhov.clearsolutionsrestapi.model.request.UserDetailsRequestModel;
 import com.shykhov.clearsolutionsrestapi.model.response.UserResponse;
 
+import java.util.List;
+
 public class UserUtils {
 
     private UserUtils() {
+    }
+
+    public static List<UserResponse> getResponse(List<UserEntity> saved) {
+        return saved.stream().map(UserUtils::getResponse).toList();
     }
 
     public static UserResponse getResponse(UserEntity saved) {
