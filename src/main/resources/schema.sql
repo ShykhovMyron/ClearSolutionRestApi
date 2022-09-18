@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS user_info
     email        VARCHAR(255)                            NOT NULL,
     first_name   VARCHAR(255)                            NOT NULL,
     last_name    VARCHAR(255)                            NOT NULL,
-    phone_number VARCHAR(255)                            NOT NULL,
+    phone_number VARCHAR(255),
     address      VARCHAR(255),
-    birth_date   date,
+    birth_date   date                                    NOT NULL,
     CONSTRAINT pk_user_info PRIMARY KEY (id)
 );
