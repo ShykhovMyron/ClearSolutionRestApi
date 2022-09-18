@@ -15,6 +15,18 @@ import java.time.LocalDate;
 @Setter
 @Table(name = "user_info")
 public class UserEntity {
+    public UserEntity() {
+    }
+
+    public UserEntity(String email, String firstName, String lastName, LocalDate birthDate, String phoneNumber, String address) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
