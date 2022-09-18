@@ -1,6 +1,5 @@
 package com.shykhov.clearsolutionsrestapi.model.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shykhov.clearsolutionsrestapi.validation.ValidAge;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +29,6 @@ public class UserDetailsRequestModel {
     @NotNull(message = "Birth date cannot be null")
     @Past(message = "Birth date cannot be greater than today's date")
     @ValidAge
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     private LocalDate birthDate;
 
     private String phoneNumber;
