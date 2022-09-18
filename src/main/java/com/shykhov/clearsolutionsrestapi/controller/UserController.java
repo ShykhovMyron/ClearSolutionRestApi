@@ -6,9 +6,7 @@ import com.shykhov.clearsolutionsrestapi.exeption.custom.UserDoesNotExistExcepti
 import com.shykhov.clearsolutionsrestapi.model.request.UserDetailsRequestModel;
 import com.shykhov.clearsolutionsrestapi.model.response.UserResponse;
 import com.shykhov.clearsolutionsrestapi.service.UserService;
-import com.shykhov.clearsolutionsrestapi.utils.UserUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,11 +40,11 @@ public class UserController {
     }
 
     @PutMapping("users/{id}")
-    public ResponseEntity<UserResponse> updateUser(
+    public ResponseEntity<UserResponse> replaceUser(
             @PathVariable long id,
             @Valid @RequestBody UserDetailsRequestModel userDetails
     ) throws UserDoesNotExistException {
-        UserEntity saved = userService.updateUser(id, userDetails);
+        UserEntity saved = userService.replaceUser(id, userDetails);
 
         return new ResponseEntity<>(getResponse(saved), HttpStatus.OK);
     }
@@ -60,14 +58,13 @@ public class UserController {
 
     @GetMapping("users")
     public ResponseEntity<List<UserResponse>> getUsers(
-            @RequestParam(value = "from") @DateTimeFormat(pattern = "yyyy/MM/dd") LocalDate fromDate,
-            @RequestParam(value = "to") @DateTimeFormat(pattern = "yyyy/MM/dd") LocalDate toDate
+            @RequestParam(value = "from") LocalDate fromDate,
+            @RequestParam(value = "to") LocalDate toDate
     ) throws InvalidDateRangeException {
         if (!isDateIntervalValid(fromDate, toDate)) throw new InvalidDateRangeException(fromDate, toDate);
 
         List<UserEntity> usersTimeInterval = userService.getUsersTimeInterval(fromDate, toDate);
-        List<UserResponse> users = usersTimeInterval.stream().map(UserUtils::getResponse).toList();
 
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return new ResponseEntity<>(getResponse(usersTimeInterval), HttpStatus.OK);
     }
 }

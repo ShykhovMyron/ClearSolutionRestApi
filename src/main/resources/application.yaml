@@ -5,7 +5,7 @@ spring:
     username: 'root'
 
   profiles:
-    include:
+    active:
       - properties
 
   jpa:
@@ -17,6 +17,10 @@ spring:
   sql:
     init:
       mode: always
+
+  mvc:
+    format:
+      date: ${user.date-patter}
 
 server:
   error:
